@@ -1,0 +1,22 @@
+{% load static %}
+<html>
+    <head>
+        <title>Django Girls blog</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/send.css' %}">
+    </head>
+    <body>
+        <h1>Форма отправки сообщения</h1>
+        <div class="form">
+            <label for="email">Эл. почта</label>
+            <input id="email" type="text">
+            <label for="text">Сообщение</label>
+            <textarea id="text" type="text"></textarea>
+            <div class="border">
+              <input type="button" id="send" value="Отправить">
+            </div>
+        </div>
+    </body>
+</html>
