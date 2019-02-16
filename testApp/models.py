@@ -1,8 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
-# from django.core.mail import send_mail
-
 
 class Message(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)

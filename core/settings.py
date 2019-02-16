@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'testApp'
+    'testApp'
 ]
 
 MIDDLEWARE = [
@@ -121,3 +121,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_REDIRECT_URL = '/'
+
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'test.testowich.testov'
+EMAIL_HOST_PASSWORD = 'MYV0TS'
+DEFAULT_FROM_EMAIL = 'test.testowich.testov@yandex.ru'

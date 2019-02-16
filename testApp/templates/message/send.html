@@ -1,13 +1,20 @@
 {% load static %}
 <html>
     <head>
-        <title>Django Girls blog</title>
+        <title>Django test</title>
+        <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+        <script src="{% static 'js/ajaxSend.js' %}"></script>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'css/send.css' %}">
     </head>
     <body>
+        {% if user.is_authenticated %}
+            <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+        {% else %}
+            <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
+        {% endif %}
         <h1>Форма отправки сообщения</h1>
         <div class="form">
             <label for="email">Эл. почта</label>
