@@ -32,7 +32,7 @@ h1 {
 .success {
     color: green;
 }
-#send {
+.button {
     border: 1px solid black;
     background-color: Transparent;
 }
@@ -52,3 +52,17 @@ h1 {
     height: 20%;
     resize: none;
 }
+
+#tab2{position: fixed; }
+.tabs > a { line-height: 28px; background: #fff; text-decoration: none; }
+.tabs > a,
+.tabs #tab2:target ~ a:nth-of-type(1),
+.tabs > div { padding: 5px; border: 1px solid #aaa; }
+.tabs > a:nth-of-type(1),
+.tabs #tab2:target ~ a:nth-of-type(2)
+{ border-bottom: 2px solid #fff; }
+#tab2,
+.tabs > div,
+.tabs #tab2:target ~ div:nth-of-type(1){display: none; }
+.tabs > div:nth-of-type(1),
+.tabs #tab2:target ~ div:nth-of-type(2){ display: block; }

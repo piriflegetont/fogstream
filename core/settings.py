@@ -25,6 +25,10 @@ SECRET_KEY = '$7^h_(2b5a-tf5@*7+*nakgm90#$-6glm6h&k^*^cp7#9jcnm0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+STATICFILES_DIRS = ('testApp/static/js', 'testApp/static/css')
+STATIC_ROOT = 'static'
+STATIC_URL = '/static/'
+
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 

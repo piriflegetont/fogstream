@@ -45,7 +45,7 @@ $(function () {
                 text: $text.val(),
             }),
             success: function(data) {
-                if (typeof data === 'object' && data.error) {
+                if (typeof data === 'Object' && data.error) {
                     $result.addClass('error');
                     $result.removeClass('success');
                     $result.text(`Ошибка при отправке письма ${data}`);

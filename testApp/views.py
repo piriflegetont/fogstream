@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
@@ -40,6 +40,21 @@ def send_message(request):
         return JsonResponse({"error": "Wrong type of request. Use POST."})
 
 
+def e_handler404(request, *args, **argv):
+    response = render(request, '404.html', status=404)
+    return response
+
+
+def e_handler500(request, *args, **argv):
+    response = render(request, '500.html', status=500)
+    return response
+
+
 @login_required
 def send_form(request):
     return render(request, 'message/send.html', {})
+
+
+@login_required
+def auth(request):
+    return render(request, 'registration/auth.html', {})
