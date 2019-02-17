@@ -1,5 +1,4 @@
 from . import views
-from testApp.models import Message
 from django.conf.urls import url
 
 urlpatterns = [

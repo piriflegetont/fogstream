@@ -1,25 +1,21 @@
 {% load static %}
 <html>
     <head>
-        <title>Django test</title>
+        <title>send email</title>
         <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-        <script src="{% static 'js/ajaxSend.js' %}"></script>
+        <script src="{% static 'js/ajaxSend.js' %}?{% now "U" %}"></script>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{% static 'css/send.css' %}">
+        <link rel="stylesheet" href="{% static 'css/send.css' %}?{% now "U" %}">
     </head>
     <body>
-        {% if user.is_authenticated %}
-            <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
-        {% else %}
-            <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-        {% endif %}
+        <p class="top-menu">Hello {{ user.username }} <small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
         <h1>Форма отправки сообщения</h1>
         <div class="form">
-            <label for="email">Эл. почта</label>
+            <label class="signature" id="result">Result</label>
+            <label class="signature" for="email">Эл. почта</label>
             <input id="email" type="text">
-            <label for="text">Сообщение</label>
+            <label class="signature" for="text">Сообщение</label>
             <textarea id="text" type="text"></textarea>
             <div class="border">
               <input type="button" id="send" value="Отправить">

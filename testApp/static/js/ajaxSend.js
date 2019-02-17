@@ -20,6 +20,16 @@ $(function () {
     $btn.on('click', () => {
         let $email = $('#email');
         let $text = $('#text');
+        let $result = $('#result');
+        if($result.is(':visible'))
+            $result.slideToggle("slow");
+        $('#result').ajaxError(function(e) {
+            $(this).addClass('error');
+            $(this).removeClass('success');
+            $(this).text(JSON.stringify(e.type));
+            if(!$(this).is(':visible'))
+                    $(this).slideToggle("slow");
+        });
         $.ajax({
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -35,10 +45,25 @@ $(function () {
                 text: $text.val(),
             }),
             success: function(data) {
-                console.log('success', data);
+                if (typeof data === 'object' && data.error) {
+                    $result.addClass('error');
+                    $result.removeClass('success');
+                    $result.text(`Ошибка при отправке письма ${data}`);
+                    if(!$result.is(':visible'))
+                        $result.slideToggle("slow");
+                }
+                $result.removeClass('error');
+                $result.addClass('success');
+                $result.text("Письмо успешно отправлено");
+                if(!$result.is(':visible'))
+                    $result.slideToggle("slow");
             },
             failure: function(data) {
-                console.log('failure', data);
+                $result.addClass('error');
+                $result.removeClass('success');
+                $result.text(`Ошибка при отправке письма ${data}`);
+                if(!$result.is(':visible'))
+                    $result.slideToggle("slow");
             }
         });
     })
