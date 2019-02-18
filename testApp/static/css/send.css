@@ -26,6 +26,9 @@ h1 {
     display: inline-block;
     text-align: right;
 }
+.border > input[type="text"], .border > textarea {
+    width: 100%;
+}
 .error {
     color: red;
 }
@@ -44,8 +47,8 @@ h1 {
 #result:hover {
     opacity: 1;
 }
-#email, #text, .border, .signature {
-    width: 60%;
+.border{
+    width: 50%;
     margin: 3px;
 }
 #text {

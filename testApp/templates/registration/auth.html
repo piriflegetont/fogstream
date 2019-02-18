@@ -3,36 +3,46 @@
     <head>
         <title>send email</title>
         <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-        <script src="{% static 'js/ajaxSend.js' %}?{% now "U" %}"></script>
+        <script src="{% static 'js/common.js' %}?{% now "U" %}"></script>
+        <script src="{% static 'js/ajaxAuth.js' %}?{% now "U" %}"></script>
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
         <link rel="stylesheet" href="{% static 'css/send.css' %}?{% now "U" %}">
     </head>
     <body>
+        <label class="signature" id="result">Result</label>
         <div class="tabs">
             <br id="tab2">
             <a href="#tab1">Авторизация</a>
             <a href="#tab2">Регистрация</a>
             <div class="form">
-                <label class="signature" id="result">Result</label>
-                <label class="signature" for="login">Логин</label>
-                <input id="login" type="text">
-                <label class="signature" for="password">Пароль</label>
-                <input id="password" type="text"></textarea>
                 <div class="border">
-                    <input type="button" class="button" id="login" value="Войти">
+                    <label class="signature" for="login">Логин</label>
+                    <input id="login" type="text">
+                </div>
+                <div class="border">
+                    <label class="signature" for="password">Пароль</label>
+                <input id="password" type="text">
+                </div>
+                <div class="border">
+                    <input type="button" class="button" id="do_login" value="Войти">
                 </div>
             </div>
             <div class="form">
-                <label class="signature" id="result">Result</label>
-                <label class="signature" for="login">Логин</label>
-                <input id="login" type="text">
-                <label class="signature" for="password">Пароль</label>
-                <input id="password" type="text"></textarea>
-                <label class="signature" for="repeat">Повторите пароль</label>
-                <input id="repeat" type="text"></textarea>
                 <div class="border">
-                    <input type="button" class="button" id="register" value="Регистрация">
+                    <label class="signature" for="reg_login">Логин</label>
+                    <input id="reg_login" type="text">
+                </div>
+                <div class="border">
+                    <label class="signature" for="reg_password">Пароль</label>
+                    <input id="reg_password" type="text">
+                </div>
+                <div class="border">
+                    <label class="signature" for="reg_repeat">Повторите пароль</label>
+                    <input id="reg_repeat" type="text">
+                </div>
+                <div class="border">
+                    <input type="button" class="button" id="do_register" value="Регистрация">
                 </div>
             </div>
         </div>

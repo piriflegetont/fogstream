@@ -7,6 +7,9 @@ handler500 = 'testApp.views.e_handler500'
 urlpatterns = [
     url(r'^$', views.send_form, name='send_form'),
     url(r'^auth$', views.auth, name='auth'),
+    url(r'^login$', views.e_login, name='login'),
+    url(r'^logout$', views.e_logout, name='logout'),
+    url(r'^register$', views.e_register, name='register'),
     url(r'^send$', views.send_message, name='send_message'),
 ]
 

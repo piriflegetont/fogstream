@@ -1,17 +1,20 @@
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.contrib.auth import authenticate, login, logout, password_validation
+from django.http import HttpResponse, JsonResponse, HttpResponseForbidden, HttpResponseRedirect
 from smtplib import SMTPException
 from .models import Message
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 import json
 import re
 
 
-@login_required
 def send_message(request):
+    if not request.user.is_authenticated():
+        return HttpResponseForbidden()
     body = json.loads(request.body.decode("utf-8"))
     if request.method == 'POST':
         try:
@@ -27,7 +30,7 @@ def send_message(request):
             message.save()
             return HttpResponse(msg)
         except User.DoesNotExist:
-            return JsonResponse({"error": "There is no user with such email"})
+            return JsonResponse({"error": "Администратора с такой электронной почтой не существует"})
         except SMTPException:
             message = Message(author=request.user)
             message.email = body['email']
@@ -50,11 +53,63 @@ def e_handler500(request, *args, **argv):
     return response
 
 
-@login_required
+@login_required(login_url='/auth')
 def send_form(request):
     return render(request, 'message/send.html', {})
 
 
-@login_required
+def e_login(request):
+    body = json.loads(request.body.decode("utf-8"))
+    username = body['login']
+    password = body['password']
+    print(username)
+    print(password)
+    user = authenticate(username=username, password=password)
+    if user is None:
+        return JsonResponse({"error": "There is no such user!"})
+    if user.is_active:
+        login(request, user)
+        return JsonResponse({"url": '/'})
+    else:
+        return JsonResponse({"error": "User is not active"})
+
+
+def e_logout(request):
+    logout(request)
+    return JsonResponse({"url": '/auth'})
+
+
+def e_register(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/')
+    body = json.loads(request.body.decode("utf-8"))
+    if request.method == 'POST':
+        user = User.objects.filter(username=body['login'])
+        if user.exists():
+            return JsonResponse({"error": "Такой пользователь уже зарегистрирован"})
+        try:
+            if body['password'] != body['repeat_password']:
+                raise ValidationError("Пароль не совпадает с подтверждением")
+            if not len(body['login']) > 3:
+                raise ValidationError("Логин должен быть длиннее трёх символов.")
+            if not len(body['login']) < 20:
+                raise ValidationError("Логин должен быть короче двадцати символов.")
+            if re.match(r'[A-Za-z0-9_]{3,20}', body['login']):
+                raise ValidationError("Логин должен состоять из английских букв, цифр или знаков подчёркивания")
+            if re.match(r'[A-Za-z0-9_]{8,}', body['password']):
+                raise ValidationError("Пароль должен состоять из английских букв, цифр или знаков подчёркивания")
+            password_validation.CommonPasswordValidator().validate(password=body['password'])
+            password_validation.MinimumLengthValidator().validate(password=body['password'])
+            User.objects.create_user(username=body['login'],  password=body['password'])
+            return JsonResponse({"url": "/auth"})
+        except ValidationError as e:
+            return JsonResponse({"error": '; '.join(e.messages)})
+        except:
+            return JsonResponse({"error": "Unknown error creating user"})
+
+
+
 def auth(request):
+    if request.user.is_authenticated:
+        redirect('/')
     return render(request, 'registration/auth.html', {})
