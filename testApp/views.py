@@ -20,6 +20,8 @@ def send_message(request):
         try:
             if not len(body['email']) > 0:
                 return JsonResponse({"error": "Введите email"})
+            if not len(body['email']) >= 200:
+                return JsonResponse({"error": "Слшиком длинный email. Максимум 200 символов"})
             user = User.objects.filter(email=body['email'])
             user = user.filter(is_superuser=True)
             if not user.exists():
@@ -62,21 +64,24 @@ def send_form(request):
 
 
 def e_login(request):
-    body = json.loads(request.body.decode("utf-8"))
-    username = body['login']
-    password = body['password']
-    if not len(username) > 0:
-        return JsonResponse({"error": "Введите логин"})
-    if not len(password) > 0:
-        return JsonResponse({"error": "Введите пароль"})
-    user = authenticate(username=username, password=password)
-    if user is None:
-        return JsonResponse({"error": "Такого пользователя нет!"})
-    if user.is_active:
-        login(request, user)
-        return JsonResponse({"url": '/'})
+    if request.method == 'POST':
+        body = json.loads(request.body.decode("utf-8"))
+        username = body['login']
+        password = body['password']
+        if not len(username) > 0:
+            return JsonResponse({"error": "Введите логин"})
+        if not len(password) > 0:
+            return JsonResponse({"error": "Введите пароль"})
+        user = authenticate(username=username, password=password)
+        if user is None:
+            return JsonResponse({"error": "Такого пользователя нет!"})
+        if user.is_active:
+            login(request, user)
+            return JsonResponse({"url": '/'})
+        else:
+            return JsonResponse({"error": "Пользователь не доступен"})
     else:
-        return JsonResponse({"error": "Пользователь не доступен"})
+        return JsonResponse({"error": "Wrong type of request. Use POST."})
 
 
 def e_logout(request):
@@ -113,8 +118,7 @@ def e_register(request):
             return JsonResponse({"error": "Unknown error creating user"})
 
 
-
 def auth(request):
     if request.user.is_authenticated:
-        redirect('/')
+        return redirect('/')
     return render(request, 'registration/auth.html', {})

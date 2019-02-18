@@ -1,6 +1,5 @@
 from django.db import models
 from django.utils import timezone
-from django.conf import settings
 
 
 class Message(models.Model):
@@ -12,11 +11,6 @@ class Message(models.Model):
             default=timezone.now)
     published_date = models.DateTimeField(
             blank=True, null=True)
-
-    def publish(self):
-        print(settings.ADMINS)
-        self.published_date = timezone.now()
-        return {'ADMINS': settings.ADMINS}
 
     def __str__(self):
         return self.email
