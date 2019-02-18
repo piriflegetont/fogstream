@@ -18,7 +18,12 @@ def send_message(request):
     body = json.loads(request.body.decode("utf-8"))
     if request.method == 'POST':
         try:
-            User.objects.get(email=body['email'])
+            if not len(body['email']) > 0:
+                return JsonResponse({"error": "Введите email"})
+            user = User.objects.filter(email=body['email'])
+            user = user.filter(is_superuser=True)
+            if not user.exists():
+                return JsonResponse({"error": "Администратора с такой электронной почтой не существует"})
             subject, from_email, to = re.sub("[\n\r]", '', body['text'][:20]), None, body['email']
             html_content = body['text']
             msg = send_mail(subject, html_content, from_email, [to])
@@ -29,8 +34,6 @@ def send_message(request):
             message.status = "Доставлено"
             message.save()
             return HttpResponse(msg)
-        except User.DoesNotExist:
-            return JsonResponse({"error": "Администратора с такой электронной почтой не существует"})
         except SMTPException:
             message = Message(author=request.user)
             message.email = body['email']
@@ -62,16 +65,18 @@ def e_login(request):
     body = json.loads(request.body.decode("utf-8"))
     username = body['login']
     password = body['password']
-    print(username)
-    print(password)
+    if not len(username) > 0:
+        return JsonResponse({"error": "Введите логин"})
+    if not len(password) > 0:
+        return JsonResponse({"error": "Введите пароль"})
     user = authenticate(username=username, password=password)
     if user is None:
-        return JsonResponse({"error": "There is no such user!"})
+        return JsonResponse({"error": "Такого пользователя нет!"})
     if user.is_active:
         login(request, user)
         return JsonResponse({"url": '/'})
     else:
-        return JsonResponse({"error": "User is not active"})
+        return JsonResponse({"error": "Пользователь не доступен"})
 
 
 def e_logout(request):
@@ -94,9 +99,9 @@ def e_register(request):
                 raise ValidationError("Логин должен быть длиннее трёх символов.")
             if not len(body['login']) < 20:
                 raise ValidationError("Логин должен быть короче двадцати символов.")
-            if re.match(r'[A-Za-z0-9_]{3,20}', body['login']):
+            if not re.match(r'[A-Za-z0-9_]{3,20}', body['login']):
                 raise ValidationError("Логин должен состоять из английских букв, цифр или знаков подчёркивания")
-            if re.match(r'[A-Za-z0-9_]{8,}', body['password']):
+            if not re.match(r'[A-Za-z0-9_]{8,}', body['password']):
                 raise ValidationError("Пароль должен состоять из английских букв, цифр или знаков подчёркивания")
             password_validation.CommonPasswordValidator().validate(password=body['password'])
             password_validation.MinimumLengthValidator().validate(password=body['password'])

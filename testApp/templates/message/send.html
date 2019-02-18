@@ -10,21 +10,21 @@
         <link rel="stylesheet" href="{% static 'css/send.css' %}?{% now "U" %}">
     </head>
     <body>
-        <p class="top-menu">Hello {{ user.username }}
-            <small>(<input type="button" class="button" id="logout" value="Выйти">)</small>
+        <p class="top-menu">Здравствуйте, {{ user.username }} !
+            <input type="button" class="button" id="logout" value="Выйти">
         </p>
         <h1>Форма отправки сообщения</h1>
-        <label class="signature" id="result">Result</label>
+        <div id="result" class="message-box"></div>
         <div class="form">
-            <div class="border">
+            <div class="row">
                 <label class="signature" for="email">Эл. почта</label>
                 <input id="email" type="text">
             </div>
-            <div class="border">
+            <div class="row">
                 <label class="signature" for="text">Сообщение</label>
                 <textarea id="text" type="text"></textarea>
             </div>
-            <div class="border">
+            <div class="row">
               <input type="button" class="button" id="send" value="Отправить">
             </div>
         </div>

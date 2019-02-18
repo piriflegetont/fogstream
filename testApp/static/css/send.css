@@ -1,8 +1,19 @@
 h1 {
+    margin: 2px;
     text-align: left;
     font-weight: bold;
     font-size: 12pt;
     width: 450px;
+}
+p {
+    margin: 2px;
+}
+.message-box{
+    padding: 6px;
+    display: none;
+    text-align: left;
+    width: 225px;
+    font-size: 9pt;
 }
 .form {
     padding-top: 5%;
@@ -18,15 +29,20 @@ h1 {
   .form {
     width: 50%;
   }
+  .message-box {
+    width: 50%;
+  }
   h1 {
     width: 50%;
   }
 }
-.border {
+.row {
+    width: 50%;
+    margin: 3px;
     display: inline-block;
     text-align: right;
 }
-.border > input[type="text"], .border > textarea {
+.row > input[type="text"], .row > textarea {
     width: 100%;
 }
 .error {
@@ -39,17 +55,8 @@ h1 {
     border: 1px solid black;
     background-color: Transparent;
 }
-#result {
-    border: 1px solid black;
-    font-weight: normal;
-    display: none
-}
 #result:hover {
     opacity: 1;
-}
-.border{
-    width: 50%;
-    margin: 3px;
 }
 #text {
     height: 20%;

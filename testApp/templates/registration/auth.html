@@ -10,38 +10,38 @@
         <link rel="stylesheet" href="{% static 'css/send.css' %}?{% now "U" %}">
     </head>
     <body>
-        <label class="signature" id="result">Result</label>
+        <div id="result" class="message-box"></div>
         <div class="tabs">
             <br id="tab2">
             <a href="#tab1">Авторизация</a>
             <a href="#tab2">Регистрация</a>
             <div class="form">
-                <div class="border">
+                <div class="row">
                     <label class="signature" for="login">Логин</label>
                     <input id="login" type="text">
                 </div>
-                <div class="border">
+                <div class="row">
                     <label class="signature" for="password">Пароль</label>
                 <input id="password" type="text">
                 </div>
-                <div class="border">
+                <div class="row">
                     <input type="button" class="button" id="do_login" value="Войти">
                 </div>
             </div>
             <div class="form">
-                <div class="border">
+                <div class="row">
                     <label class="signature" for="reg_login">Логин</label>
                     <input id="reg_login" type="text">
                 </div>
-                <div class="border">
+                <div class="row">
                     <label class="signature" for="reg_password">Пароль</label>
                     <input id="reg_password" type="text">
                 </div>
-                <div class="border">
+                <div class="row">
                     <label class="signature" for="reg_repeat">Повторите пароль</label>
                     <input id="reg_repeat" type="text">
                 </div>
-                <div class="border">
+                <div class="row">
                     <input type="button" class="button" id="do_register" value="Регистрация">
                 </div>
             </div>
