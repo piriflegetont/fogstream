@@ -122,7 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-ADMINS = [('Ivan', 'piriflegetont@gmail.com'), ]
+ADMINS = [('test admin', 'test.user.django@yandex.ru'), ]
 LOGIN_REDIRECT_URL = '/'
 
 EMAIL_USE_SSL = True
